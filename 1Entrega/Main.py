@@ -1,54 +1,55 @@
-# Datos en Memoria
-
-DB= {
-        # 'dario': 'dario',
-        # 'ema': 'ema',
-        # 'rodriguez': 'rodriguez',
-    }
+import json
+import os
 
 # Regristrarse
-
 def Regristrarse():
     Nombre = input('Ingrese su Nombre: ')
     Contrasenia = input('Ingrese su Contraseña: ')
-    NewDatos = {f'{Nombre}': f'{Contrasenia}',}
-    try:
-        if len(DB) == 0:
-            DB.update(NewDatos)
-            return print(f'{Nombre} Regitrado exitosamente')
+    if os.path.exists('Usuarios.json'):
+        Lec = open('Usuarios.json', 'r')
+        DB = dict(json.load(Lec))
+        Lec.close()
+        lista= list(DB.keys())
+        if lista.count(Nombre) == 1 and DB[Nombre] == Contrasenia:
+            return print(f'{Nombre} Ya se encuentra registrado debe iniciar sesion')
         else:
-            Name = DB.get(Nombre, False)
-            if Name and DB[Name] == Contrasenia:
-                return print(f'{Nombre} Ya se encuentra registrado debe iniciar sesion')
-            else:
-                DB.update(NewDatos)
-                return print(f'{Nombre} Regitrado exitosamente')
-    except:
-        return print('Ocurrio un error al registrarse')
-    
+            AddData = {Nombre: Contrasenia}
+            DB.update(AddData)
+            Esc = open('Usuarios.json', 'w')
+            json.dump(DB, Esc, indent=4)
+            Esc.close()
+            return print(f'{Nombre} Regitrado exitosamente')
+    else:
+        NewData = {Nombre: Contrasenia}
+        Esc = open('Usuarios.json', 'w')
+        json.dump(NewData, Esc, indent=4)
+        Esc.close()
+        return print(f'{Nombre} Regitrado exitosamente')
+
 
 # Loguearse
-
 def Loguearse():
     Nombre = input('Ingrese su Nombre: ')
     Contrasenia = input('Ingrese su Contraseña: ')
-    Name = DB.get(Nombre, False)
-    try:
-        if Name:
-            if DB[Name] == Contrasenia:
-                return print(f'Bienvenido {Nombre}')
-            else:
-                return print('Contraseña incorrecta')
-        else:
-            return print('Usuario no registrado')
-    except:
-        return print('Ocurrio un error al iniciar')
+    Lec = open('Usuarios.json', 'r')
+    DB = dict(json.load(Lec))
+    Lec.close()
+    lista= list(DB.keys())
+    if lista.count(Nombre) == 1:
+        if DB[Nombre] == Contrasenia:
+            return print(f'{Nombre} bienvenido inicio sesion correctamente')
+        else: 
+            return print('Contraseña incorrecta')
+    else:
+        return print('Usuario no registrado')
 
 # Ver Datos
-
 def VerDatos():
-    for Clave in DB.keys():
-        print(Clave)
+    Lec = open('Usuarios.json', 'r')
+    DB = dict(json.load(Lec))
+    Lec.close()
+    lista= list(DB.keys())
+    print(lista)
 
 # Menu
 Menu = True
