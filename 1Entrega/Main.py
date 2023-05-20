@@ -9,8 +9,7 @@ def Regristrarse():
         Lec = open('Usuarios.json', 'r')
         DB = dict(json.load(Lec))
         Lec.close()
-        lista= list(DB.keys())
-        if lista.count(Nombre) == 1 and DB[Nombre] == Contrasenia:
+        if Nombre in DB:
             return print(f'{Nombre} Ya se encuentra registrado debe iniciar sesion')
         else:
             AddData = {Nombre: Contrasenia}
@@ -45,20 +44,30 @@ def Loguearse():
 
 # Ver Datos
 def VerDatos():
-    Lec = open('Usuarios.json', 'r')
-    DB = dict(json.load(Lec))
-    Lec.close()
-    lista= list(DB.keys())
-    print(lista)
-
+    if os.path.exists('Usuarios.json'):
+        try:
+            Lec = open('Usuarios.json', 'r')
+            DB = dict(json.load(Lec))
+            Lec.close()
+            for Usuario in DB:
+                print(Usuario)
+        except:
+             return print('No hay usuarios registrados')
+    else:
+        return print('No hay usuarios registrados')
+    
 # Menu
 Menu = True
 while Menu :
     print('''
-Ingrese 1 para Registrarse
-Ingrese 2 para Loguearse
-Ingrese 3 para Ver Datos
-Ingrese 4 para Salir
+============================
+            Menu
+============================
+Ingrese (1) para Registrarse
+Ingrese (2) para Loguearse
+Ingrese (3) para Ver Datos
+Ingrese (4) para Salir
+============================
 ''')
     try:
         Opcion = int(input('Ingrese un numero: '))
