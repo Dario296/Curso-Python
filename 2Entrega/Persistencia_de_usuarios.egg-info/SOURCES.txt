@@ -1,0 +1,7 @@
+setup.py
+Persistencia/__init__.py
+Persistencia/clientes.py
+Persistencia_de_usuarios.egg-info/PKG-INFO
+Persistencia_de_usuarios.egg-info/SOURCES.txt
+Persistencia_de_usuarios.egg-info/dependency_links.txt
+Persistencia_de_usuarios.egg-info/top_level.txt
